@@ -1,0 +1,30 @@
+{
+  "name": "blackbox",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "format": "turbo format",
+    "check": "turbo check"
+  },
+  "devDependencies": {
+    "@antfu/ni": "^23.2.0",
+    "prettier": "^3.2.5",
+    "turbo": "^2.3.3",
+    "typescript": "5.5.4"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "resolutions": {
+    "strtok3": "8.0.1"
+  },
+  "pnpm": {
+    "overrides": {
+      "strtok3": "8.0.1"
+    }
+  },
+  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf"
+}
