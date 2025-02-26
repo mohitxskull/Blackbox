@@ -2,7 +2,7 @@ import { Logo } from "@/components/logo";
 import { cobalt } from "@/configs/cobalt";
 import { cobaltServer } from "@/configs/cobalt_server";
 import { removeCookie, setCookie } from "@/lib/cookie";
-import { Button, Card, Center, Stack, Title } from "@mantine/core";
+import { Box, Button, Card, Container, Stack, Title } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useRouter } from "next/router";
 import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
@@ -24,7 +24,9 @@ export const getServerSideProps = cobaltServer.server(
       });
     }
 
-    if (token.length < 10 || token.length > 500) {
+    const tokenLength = token.length;
+
+    if (tokenLength < 150 || tokenLength > 300) {
       throw new NextServerError({
         type: "404",
       });
@@ -73,59 +75,61 @@ export default function Page(
 
   return (
     <>
-      <Center mih="100vh" bg={setting.bg}>
-        <Stack gap="xs">
-          <Logo size="xl" mx="auto" />
+      <Box bg={setting.bg}>
+        <Container size="xs">
+          <Stack gap="xs" w="100%" justify="center" h="100vh">
+            <Logo size="xl" mx="auto" />
 
-          <Card withBorder p="md" w={450}>
-            <Stack>
-              <Title order={2}>Verify Your Identity</Title>
+            <Card withBorder p="md">
+              <Stack>
+                <Title order={2}>Verify Your Identity</Title>
 
-              <Turnstile
-                ref={captchaRef}
-                siteKey={env.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY}
-                onSuccess={(t) => {
-                  setCookie("CAPTCHA", t);
-                  setCaptchaReady(true);
-                }}
-                onExpire={() => {
-                  notifications.show({
-                    title: "Captcha Expired",
-                    message: "Complete it again",
-                  });
+                <Turnstile
+                  ref={captchaRef}
+                  siteKey={env.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY}
+                  onSuccess={(t) => {
+                    setCookie("CAPTCHA", t);
+                    setCaptchaReady(true);
+                  }}
+                  onExpire={() => {
+                    notifications.show({
+                      title: "Captcha Expired",
+                      message: "Complete it again",
+                    });
 
-                  setCaptchaReady(false);
-                  removeCookie("CAPTCHA");
-                }}
-                onError={() => {
-                  notifications.show({
-                    title: "Captcha Error",
-                    message: "Please try again",
-                  });
+                    setCaptchaReady(false);
+                    removeCookie("CAPTCHA");
+                  }}
+                  onError={() => {
+                    notifications.show({
+                      title: "Captcha Error",
+                      message: "Please try again",
+                    });
 
-                  setCaptchaReady(false);
-                  removeCookie("CAPTCHA");
-                }}
-                options={{
-                  size: "flexible",
-                }}
-              />
+                    setCaptchaReady(false);
+                    removeCookie("CAPTCHA");
+                  }}
+                  options={{
+                    size: "flexible",
+                  }}
+                />
 
-              <Button
-                loading={verifyM.isPending}
-                disabled={!captchaReady}
-                onClick={() => {
-                  submit({
-                    token: props.token,
-                  });
-                }}
-              >
-                Verify
-              </Button>
-            </Stack>
-          </Card>
-        </Stack>
-      </Center>
+                <Button
+                  loading={verifyM.isPending}
+                  disabled={!captchaReady}
+                  onClick={() => {
+                    submit({
+                      token: props.token,
+                    });
+                  }}
+                >
+                  Verify
+                </Button>
+              </Stack>
+            </Card>
+          </Stack>
+        </Container>
+      </Box>
     </>
   );
 }

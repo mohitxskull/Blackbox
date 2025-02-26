@@ -4,7 +4,7 @@ import { LogoBase, LogoBaseProps } from "@folie/cobalt/components";
 export const Logo = (props: LogoBaseProps) => {
   return (
     <>
-      <LogoBase {...props}>{setting.app}</LogoBase>
+      <LogoBase {...props}>{setting.app.name}</LogoBase>
     </>
   );
 };

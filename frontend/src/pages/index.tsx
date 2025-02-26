@@ -36,7 +36,7 @@ export default function Page() {
           bg={setting.bg}
         >
           <Center h="100%">
-            <Stack>
+            <Stack gap="0">
               <Title mx="auto" size="15vw">
                 <Reveal
                   splitBy="characters"
@@ -48,7 +48,7 @@ export default function Page() {
                     damping: 21,
                   }}
                 >
-                  {setting.app}
+                  {setting.app.name}
                 </Reveal>
               </Title>
 
@@ -64,7 +64,7 @@ export default function Page() {
                     delay: 0.3,
                   }}
                 >
-                  {`Password manager`}
+                  {setting.app.tagline}
                 </Reveal>
               </Text>
             </Stack>

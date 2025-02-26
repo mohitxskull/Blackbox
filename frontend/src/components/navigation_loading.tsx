@@ -17,7 +17,7 @@ export const NavigationLoading = (props: Props) => {
         center={
           <Title>
             <Breathing
-              label={setting.app}
+              label={setting.app.name}
               staggerDuration={0.1}
               fromFontVariationSettings="'wght' 200, 'slnt' 0"
               toFontVariationSettings="'wght' 800, 'slnt' -10"

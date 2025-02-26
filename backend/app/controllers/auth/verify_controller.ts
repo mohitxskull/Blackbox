@@ -9,7 +9,7 @@ import { DateTime } from 'luxon'
 export default routeController({
   input: vine.compile(
     vine.object({
-      token: vine.string().minLength(20).maxLength(1000),
+      token: vine.string().minLength(150).maxLength(300),
     })
   ),
 

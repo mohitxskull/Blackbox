@@ -20,6 +20,7 @@ import { useState } from "react";
 import { useTimeout } from "@mantine/hooks";
 import { NavigationLoading } from "@/components/navigation_loading";
 import { ContextMenuProvider } from "mantine-contextmenu";
+import { setting } from "@/configs/setting";
 
 export default function App({
   Component,
@@ -44,7 +45,25 @@ export default function App({
 
   return (
     <>
-      <NextSeo title="Formation" description="Headless Form API" />
+      <NextSeo
+        title={setting.app.name}
+        description={setting.app.description}
+        openGraph={{
+          url: "https://blackbox.mohitxskull.com",
+          title: setting.app.name,
+          description: setting.app.description,
+          siteName: setting.app.name,
+          images: [
+            { url: "https://blackbox.mohitxskull.com/blackbox-banner.png" },
+          ],
+        }}
+        additionalLinkTags={[
+          {
+            rel: "icon",
+            href: "https://blackbox.mohitxskull.com/favicon.ico",
+          },
+        ]}
+      />
       <CobaltContext
         cobalt={cobalt}
         config={CobaltConfig}

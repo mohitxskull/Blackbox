@@ -36,7 +36,7 @@ export const setting = {
   },
 
   secureKey: {
-    minSize: 16,
-    maxSize: 500,
+    minSize: 150,
+    maxSize: 300,
   },
 }

@@ -5,9 +5,10 @@ import { removeCookie, setCookie } from "@/lib/cookie";
 import { Form } from "@folie/cobalt/components";
 import {
   Anchor,
+  Box,
   Button,
   Card,
-  Center,
+  Container,
   Group,
   PasswordInput,
   Stack,
@@ -69,117 +70,121 @@ export default function Page() {
 
   return (
     <>
-      <Center mih="100vh" bg={setting.bg}>
-        <Stack gap="xs">
-          <Logo size="xl" mx="auto" />
+      <Box bg={setting.bg}>
+        <Container size="xs">
+          <Stack gap="xs" w="100%" justify="center" h="100vh">
+            <Logo size="xl" mx="auto" />
 
-          <Card withBorder p="md" w={450}>
-            <Stack>
-              <Title order={2}>Create an account</Title>
+            <Card withBorder p="md">
+              <Stack>
+                <Title order={2}>Create an account</Title>
 
-              <Text size="sm">
-                Already have an account?{" "}
-                <Anchor td="underline" href="/sign-in">
-                  Sign In
-                </Anchor>
-              </Text>
+                <Text size="sm">
+                  Already have an account?{" "}
+                  <Anchor td="underline" href="/sign-in">
+                    Sign In
+                  </Anchor>
+                </Text>
 
-              <Form mutation={mutation} submit={submit} form={form}>
-                {({ dirty, loading }) => (
-                  <>
-                    <Group grow>
+                <Form mutation={mutation} submit={submit} form={form}>
+                  {({ dirty, loading }) => (
+                    <>
+                      <Group grow>
+                        <TextInput
+                          label="First name"
+                          placeholder="John"
+                          {...inputProps(["firstName"])}
+                          key={inputKey(["firstName"])}
+                          required
+                          withAsterisk={false}
+                        />
+
+                        <TextInput
+                          label="Last name"
+                          placeholder="Doe"
+                          {...inputProps(["lastName"])}
+                          key={inputKey(["lastName"])}
+                          required
+                          withAsterisk={false}
+                        />
+                      </Group>
+
                       <TextInput
-                        label="First name"
-                        placeholder="John"
-                        {...inputProps(["firstName"])}
-                        key={inputKey(["firstName"])}
+                        label="Email"
+                        description="Only gmail's are allowed"
+                        placeholder="someone@gmail.com"
+                        type="email"
+                        {...inputProps(["email"])}
+                        key={inputKey(["email"])}
                         required
                         withAsterisk={false}
                       />
 
-                      <TextInput
-                        label="Last name"
-                        placeholder="Doe"
-                        {...inputProps(["lastName"])}
-                        key={inputKey(["lastName"])}
+                      <PasswordInput
+                        label="Password"
+                        placeholder="MwL]6j*mGnQW9zn"
+                        {...inputProps(["password"])}
+                        key={inputKey(["password"])}
                         required
                         withAsterisk={false}
                       />
-                    </Group>
 
-                    <TextInput
-                      label="Email"
-                      description="Only gmail's are allowed"
-                      placeholder="someone@gmail.com"
-                      type="email"
-                      {...inputProps(["email"])}
-                      key={inputKey(["email"])}
-                      required
-                      withAsterisk={false}
-                    />
+                      <PasswordInput
+                        label="Confirm Password"
+                        placeholder="MwL]6j*mGnQW9zn"
+                        {...inputProps(["confirmPassword"])}
+                        key={inputKey(["confirmPassword"])}
+                        required
+                        withAsterisk={false}
+                      />
 
-                    <PasswordInput
-                      label="Password"
-                      placeholder="MwL]6j*mGnQW9zn"
-                      {...inputProps(["password"])}
-                      key={inputKey(["password"])}
-                      required
-                      withAsterisk={false}
-                    />
+                      {dirty && (
+                        <Turnstile
+                          ref={captchaRef}
+                          siteKey={env.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY}
+                          onSuccess={(t) => {
+                            setCookie("CAPTCHA", t);
+                            setCaptchaReady(true);
+                          }}
+                          onExpire={() => {
+                            notifications.show({
+                              title: "Captcha Expired",
+                              message: "Complete it again",
+                            });
 
-                    <PasswordInput
-                      label="Confirm Password"
-                      placeholder="MwL]6j*mGnQW9zn"
-                      {...inputProps(["confirmPassword"])}
-                      key={inputKey(["confirmPassword"])}
-                      required
-                      withAsterisk={false}
-                    />
+                            setCaptchaReady(false);
+                            removeCookie("CAPTCHA");
+                          }}
+                          onError={() => {
+                            notifications.show({
+                              title: "Captcha Error",
+                              message: "Please try again",
+                            });
 
-                    <Turnstile
-                      ref={captchaRef}
-                      siteKey={env.NEXT_PUBLIC_CAPTCHA_PUBLIC_KEY}
-                      onSuccess={(t) => {
-                        setCookie("CAPTCHA", t);
-                        setCaptchaReady(true);
-                      }}
-                      onExpire={() => {
-                        notifications.show({
-                          title: "Captcha Expired",
-                          message: "Complete it again",
-                        });
+                            setCaptchaReady(false);
+                            removeCookie("CAPTCHA");
+                          }}
+                          options={{
+                            size: "flexible",
+                          }}
+                        />
+                      )}
 
-                        setCaptchaReady(false);
-                        removeCookie("CAPTCHA");
-                      }}
-                      onError={() => {
-                        notifications.show({
-                          title: "Captcha Error",
-                          message: "Please try again",
-                        });
-
-                        setCaptchaReady(false);
-                        removeCookie("CAPTCHA");
-                      }}
-                      options={{
-                        size: "flexible",
-                      }}
-                    />
-
-                    <Button
-                      type="submit"
-                      loading={loading}
-                      disabled={!dirty || !captchaReady}
-                    >
-                      Sign Up
-                    </Button>
-                  </>
-                )}
-              </Form>
-            </Stack>
-          </Card>
-        </Stack>
-      </Center>
+                      <Button
+                        type="submit"
+                        loading={loading}
+                        disabled={!dirty || !captchaReady}
+                      >
+                        Sign Up
+                      </Button>
+                    </>
+                  )}
+                </Form>
+              </Stack>
+            </Card>
+          </Stack>
+        </Container>
+      </Box>
     </>
   );
 }
