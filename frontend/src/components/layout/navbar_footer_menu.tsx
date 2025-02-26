@@ -15,7 +15,7 @@ export const NavbarFooterMenu = () => {
   return (
     <>
       <LocalQueryLoader query={session}>
-        {(user) => (
+        {({ session }) => (
           <>
             <Menu
               shadow="md"
@@ -33,15 +33,15 @@ export const NavbarFooterMenu = () => {
                   }}
                 >
                   <Avatar radius="sm">
-                    {user.firstName[0]}
-                    {user.lastName[0]}
+                    {session.firstName[0]}
+                    {session.lastName[0]}
                   </Avatar>
 
                   <Stack px="xs" gap="0">
                     <Text size="sm">
-                      {user.firstName} {user.lastName}
+                      {session.firstName} {session.lastName}
                     </Text>
-                    <Text size="xs">{user.email}</Text>
+                    <Text size="xs">{session.email}</Text>
                   </Stack>
                 </Group>
               </Menu.Target>

@@ -160,11 +160,11 @@ importers:
         specifier: ^0.0.5
         version: 0.0.5(@vinejs/vine@3.0.0)
       '@folie/cobalt':
-        specifier: ^0.0.22
-        version: 0.0.22(co5cj2ke7qlx2irybcsqkuh2da)
+        specifier: ^0.0.24
+        version: 0.0.24(co5cj2ke7qlx2irybcsqkuh2da)
       '@folie/cobalt-animation':
-        specifier: ^0.0.6
-        version: 0.0.6(motion@11.18.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(next@15.1.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^0.0.7
+        version: 0.0.7(motion@11.18.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(next@15.1.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@folie/gate':
         specifier: ^0.0.8
         version: 0.0.8(@vinejs/vine@3.0.0)
@@ -652,8 +652,8 @@ packages:
       '@vinejs/vine': ^3.0.0
       luxon: ^3.5.0
 
-  '@folie/cobalt-animation@0.0.6':
-    resolution: {integrity: sha512-ame25GeII/5LtsPRDXASgqww7xGswO1osySAr4gi8+rmlyTGXNEsmAbpaWa+sPDeuKtGqsbQZrs8uzs5K+d/3g==}
+  '@folie/cobalt-animation@0.0.7':
+    resolution: {integrity: sha512-oFEIhq68m64/gVQrwqCdRPpuU0hbNbrMOMDL2Vj8Amg3bG+2eoB7M5FkAXQZ0EZEakA1zXEzQl1qg8UBFAixBg==}
     engines: {node: '>=20.6.0'}
     peerDependencies:
       motion: ^11.16.0
@@ -661,8 +661,8 @@ packages:
       react: ^19.0.0
       react-dom: ^19.0.0
 
-  '@folie/cobalt@0.0.22':
-    resolution: {integrity: sha512-wePBl8d6mJwGt65Ng1iLR1GhRgkOoiMUOku2xfHhVPI58d1ryEgMa4helCcl/IyOD8ka2DzWKL/u9la+HgG2WQ==}
+  '@folie/cobalt@0.0.24':
+    resolution: {integrity: sha512-F/lT8+FHZY+zJEA5VfLdMRKu0uRv5GPw2GG5kDdgUZ/mzWWBVroa+9h/ZXe7SGFGSlKomay8J8LkHKXYjSSMEQ==}
     engines: {node: '>=20.6.0'}
     peerDependencies:
       '@folie/gate': ^0.0.8
@@ -5057,7 +5057,7 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
-  '@folie/cobalt-animation@0.0.6(motion@11.18.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(next@15.1.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
+  '@folie/cobalt-animation@0.0.7(motion@11.18.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(next@15.1.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)':
     dependencies:
       clsx: 2.1.1
       motion: 11.18.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -5066,7 +5066,7 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       tailwind-merge: 2.6.0
 
-  '@folie/cobalt@0.0.22(co5cj2ke7qlx2irybcsqkuh2da)':
+  '@folie/cobalt@0.0.24(co5cj2ke7qlx2irybcsqkuh2da)':
     dependencies:
       '@folie/blueprint-lib': 0.0.5(@vinejs/vine@3.0.0)
       '@folie/gate': 0.0.8(@vinejs/vine@3.0.0)

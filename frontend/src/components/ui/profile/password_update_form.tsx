@@ -22,10 +22,7 @@ export const ProfilePasswordUpdateForm = () => {
           newPassword: "",
           oldPassword: "",
         },
-        queryKeys: (qk) => [
-          qk("V1_AUTH_SESSION", undefined),
-          qk("V1_AUTH_PROFILE_SHOW", undefined),
-        ],
+        queryKeys: (qk) => [qk("V1_AUTH_SESSION", undefined)],
       };
     },
   });

@@ -64,7 +64,7 @@ export default function Page() {
                     delay: 0.3,
                   }}
                 >
-                  {`Headless Form API`}
+                  {`Password manager`}
                 </Reveal>
               </Text>
             </Stack>

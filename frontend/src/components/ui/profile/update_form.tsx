@@ -1,11 +1,11 @@
 import { cobalt } from "@/configs/cobalt";
-import { V1AuthProfileShowRoute } from "@folie/service-formation-backend/blueprint";
+import { V1AuthSessionRoute } from "@blackbox/backend/blueprint";
 import { Form, RightGroup } from "@folie/cobalt/components";
 import { Button, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
 type Props = {
-  user: V1AuthProfileShowRoute["output"];
+  session: V1AuthSessionRoute["output"]["session"];
 };
 
 export const ProfileUpdateForm = (props: Props) => {
@@ -13,8 +13,8 @@ export const ProfileUpdateForm = (props: Props) => {
     endpoint: "V1_AUTH_PROFILE_UPDATE",
     form: {
       values: {
-        firstName: props.user.firstName,
-        lastName: props.user.lastName,
+        firstName: props.session.firstName,
+        lastName: props.session.lastName,
       },
     },
     onSuccess: (updatedData) => {
@@ -26,10 +26,7 @@ export const ProfileUpdateForm = (props: Props) => {
         input: {
           ...updatedData.user,
         },
-        queryKeys: (qk) => [
-          qk("V1_AUTH_PROFILE_SHOW", undefined),
-          qk("V1_AUTH_SESSION", undefined),
-        ],
+        queryKeys: (qk) => [qk("V1_AUTH_SESSION", undefined)],
       };
     },
   });

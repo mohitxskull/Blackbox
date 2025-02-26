@@ -4,12 +4,14 @@ import { cobaltServer } from "@/configs/cobalt_server";
 import { removeCookie, setCookie } from "@/lib/cookie";
 import { Form } from "@folie/cobalt/components";
 import {
+  Anchor,
   Button,
   Card,
   Center,
   Group,
   PasswordInput,
   Stack,
+  Text,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -73,7 +75,14 @@ export default function Page() {
 
           <Card withBorder p="md" w={450}>
             <Stack>
-              <Title order={2}>Sign Up</Title>
+              <Title order={2}>Create an account</Title>
+
+              <Text size="sm">
+                Already have an account?{" "}
+                <Anchor td="underline" href="/sign-in">
+                  Sign In
+                </Anchor>
+              </Text>
 
               <Form mutation={mutation} submit={submit} form={form}>
                 {({ dirty, loading }) => (

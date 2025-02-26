@@ -79,7 +79,7 @@ export default function Page(
 
           <Card withBorder p="md" w={450}>
             <Stack>
-              <Title order={2}>Verify</Title>
+              <Title order={2}>Verify Your Identity</Title>
 
               <Turnstile
                 ref={captchaRef}
