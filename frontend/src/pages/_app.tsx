@@ -21,6 +21,7 @@ import { useTimeout } from "@mantine/hooks";
 import { NavigationLoading } from "@/components/navigation_loading";
 import { ContextMenuProvider } from "mantine-contextmenu";
 import { setting } from "@/configs/setting";
+import { Provider } from "jotai";
 
 export default function App({
   Component,
@@ -83,7 +84,9 @@ export default function App({
         <CobaltAPIContext>
           <NavigationLoading opened={NavigationState}>
             <ContextMenuProvider>
-              <Component {...pageProps} />
+              <Provider>
+                <Component {...pageProps} />
+              </Provider>
             </ContextMenuProvider>
           </NavigationLoading>
         </CobaltAPIContext>

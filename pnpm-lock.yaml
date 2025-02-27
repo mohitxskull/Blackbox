@@ -160,8 +160,8 @@ importers:
         specifier: ^0.0.5
         version: 0.0.5(@vinejs/vine@3.0.0)
       '@folie/cobalt':
-        specifier: ^0.0.24
-        version: 0.0.24(co5cj2ke7qlx2irybcsqkuh2da)
+        specifier: ^0.0.26
+        version: 0.0.26(co5cj2ke7qlx2irybcsqkuh2da)
       '@folie/cobalt-animation':
         specifier: ^0.0.7
         version: 0.0.7(motion@11.18.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(next@15.1.6(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -219,6 +219,9 @@ importers:
       dot-prop:
         specifier: ^9.0.0
         version: 9.0.0
+      jotai:
+        specifier: ^2.12.1
+        version: 2.12.1(@types/react@19.0.10)(react@19.0.0)
       mantine-contextmenu:
         specifier: ^7.15.3
         version: 7.15.3(@mantine/core@7.17.0(@mantine/hooks@7.17.0(react@19.0.0))(@types/react@19.0.10)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@mantine/hooks@7.17.0(react@19.0.0))(clsx@2.1.1)(react@19.0.0)
@@ -661,8 +664,8 @@ packages:
       react: ^19.0.0
       react-dom: ^19.0.0
 
-  '@folie/cobalt@0.0.24':
-    resolution: {integrity: sha512-F/lT8+FHZY+zJEA5VfLdMRKu0uRv5GPw2GG5kDdgUZ/mzWWBVroa+9h/ZXe7SGFGSlKomay8J8LkHKXYjSSMEQ==}
+  '@folie/cobalt@0.0.26':
+    resolution: {integrity: sha512-Zx9gIqmrE/5FOFUtQdzXQecZkC4Rf0DmH4yu/McTfvYVqblP3WPLHUabuRYLJ4ECphZ0K+HyOl0b99O9N5Fr2g==}
     engines: {node: '>=20.6.0'}
     peerDependencies:
       '@folie/gate': ^0.0.8
@@ -2948,6 +2951,18 @@ packages:
     resolution: {integrity: sha512-VWI269+9JS5cpndnpCwm7dy7JtGQT30UHfrnM3mXl22gHGt/b7NkjBqXfbhZ8V4B7ANUsjK18PlSBmG0YH7gjw==}
     engines: {node: '>= 8.3'}
 
+  jotai@2.12.1:
+    resolution: {integrity: sha512-VUW0nMPYIru5g89tdxwr9ftiVdc/nGV9jvHISN8Ucx+m1vI9dBeHemfqYzEuw5XSkmYjD/MEyApN9k6yrATsZQ==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': '>=17.0.0'
+      react: '>=17.0.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      react:
+        optional: true
+
   joycon@3.1.1:
     resolution: {integrity: sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==}
     engines: {node: '>=10'}
@@ -5066,7 +5081,7 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       tailwind-merge: 2.6.0
 
-  '@folie/cobalt@0.0.24(co5cj2ke7qlx2irybcsqkuh2da)':
+  '@folie/cobalt@0.0.26(co5cj2ke7qlx2irybcsqkuh2da)':
     dependencies:
       '@folie/blueprint-lib': 0.0.5(@vinejs/vine@3.0.0)
       '@folie/gate': 0.0.8(@vinejs/vine@3.0.0)
@@ -7418,6 +7433,11 @@ snapshots:
       jest-diff: 25.5.0
       jest-get-type: 25.2.6
       pretty-format: 25.5.0
+
+  jotai@2.12.1(@types/react@19.0.10)(react@19.0.0):
+    optionalDependencies:
+      '@types/react': 19.0.10
+      react: 19.0.0
 
   joycon@3.1.1: {}
 

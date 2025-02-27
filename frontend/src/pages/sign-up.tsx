@@ -126,6 +126,8 @@ export default function Page() {
                         {...inputProps(["password"])}
                         key={inputKey(["password"])}
                         required
+                        minLength={8}
+                        maxLength={32}
                         withAsterisk={false}
                       />
 
@@ -135,6 +137,8 @@ export default function Page() {
                         {...inputProps(["confirmPassword"])}
                         key={inputKey(["confirmPassword"])}
                         required
+                        minLength={8}
+                        maxLength={32}
                         withAsterisk={false}
                       />
 

@@ -1,127 +1,67 @@
-import {
-  AppShell,
-  MantineSpacing,
-  NavLink,
-  ScrollArea,
-  Stack,
-} from "@mantine/core";
-import { Logo } from "../logo";
+import { AppShell, Button, Group, MantineSpacing } from "@mantine/core";
 import { setting } from "@/configs/setting";
-import { Icon, IconForms, IconHome } from "@tabler/icons-react";
-import { Children } from "react";
-import { ICON_SIZE } from "@folie/cobalt";
-import { NavbarFooterMenu } from "./navbar_footer_menu";
+import { Logo } from "../logo";
+import { useSignOut } from "@/lib/hooks/use_sign_out";
+import { askConfirmation } from "@/lib/helpers/confirmation_modal";
+import { useSetAtom } from "jotai";
+import { activePageAtom } from "@/lib/jotai";
 
 type Props = {
   children: React.ReactNode;
-  fullHeight?: boolean;
+  fullPage?: boolean;
   padding?: MantineSpacing;
-  aside?: { children: React.ReactNode; width?: number };
-  footer?: { children: React.ReactNode };
 };
 
-const Links: {
-  label: string;
-  icon: Icon;
-  href?: string;
-  children?: {
-    label: string;
-    href: string;
-  }[];
-}[] = [
-  {
-    label: "Home",
-    icon: IconHome,
-    href: "/app",
-  },
-  {
-    label: "Forms",
-    icon: IconForms,
-    href: "/app/form",
-  },
-];
-
 export const AppLayout = (props: Props) => {
+  const [mutation, signout] = useSignOut();
+
+  const setActivePage = useSetAtom(activePageAtom);
+
   return (
     <>
       <AppShell
+        header={{ height: setting.header.height }}
         padding={props.padding ?? "md"}
         layout="alt"
-        navbar={{
-          width: setting.navbar.width,
-          breakpoint: "sm",
-        }}
-        aside={
-          props.aside
-            ? {
-                width: props.aside?.width ?? setting.navbar.width,
-                breakpoint: "sm",
-              }
-            : undefined
-        }
-        footer={props.footer ? { height: setting.footer.height } : undefined}
       >
-        <AppShell.Navbar p="md" bg={setting.navbar.bg}>
-          <AppShell.Section>
-            <Logo size="lg" href="/app" />
-          </AppShell.Section>
-          <AppShell.Section
-            grow
-            renderRoot={(props) => (
-              <ScrollArea type="never" scrollbars="y" {...props} />
-            )}
-          >
-            <Stack gap={0}>
-              {Children.toArray(
-                Links.map((link) => (
-                  <NavLink
-                    href={link.href}
-                    label={link.label}
-                    leftSection={<link.icon size={ICON_SIZE.SM} />}
-                    px={0}
-                    bg="transparent"
-                    childrenOffset={link.children ? 32 : undefined}
-                    defaultOpened
-                  >
-                    {link.children &&
-                      link.children.map((child) => (
-                        <>
-                          <NavLink
-                            label={child.label}
-                            href={child.href}
-                            px={0}
-                            bg="transparent"
-                          />
-                        </>
-                      ))}
-                  </NavLink>
-                )),
-              )}
-            </Stack>
-          </AppShell.Section>
-          <AppShell.Section>
-            <NavbarFooterMenu />
-          </AppShell.Section>
-        </AppShell.Navbar>
+        <AppShell.Header withBorder={false} bg="transparent">
+          <Group justify="space-between" px="md" h="100%">
+            <Logo onClick={() => setActivePage("home")} />
 
-        {props.aside && (
-          <>
-            <AppShell.Aside p="md" bg={setting.navbar.bg}>
-              {props.aside.children}
-            </AppShell.Aside>
-          </>
-        )}
+            <Group gap="xs">
+              <Button
+                size="sm"
+                fw="500"
+                variant="transparent"
+                px="xs"
+                disabled={mutation.isPending}
+                onClick={() => setActivePage("setting")}
+              >
+                Setting
+              </Button>
 
-        {props.footer && (
-          <>
-            <AppShell.Footer p="md" bg={setting.footer.bg}>
-              {props.footer.children}
-            </AppShell.Footer>
-          </>
-        )}
+              <Button
+                fw="500"
+                variant="transparent"
+                disabled={mutation.isPending}
+                c="red"
+                px="xs"
+                onClick={() => {
+                  askConfirmation({
+                    message: "Are you sure you want to logout?",
+                    confirmLabel: "Logout",
+                    onConfirm: () => signout({}),
+                  });
+                }}
+              >
+                Logout
+              </Button>
+            </Group>
+          </Group>
+        </AppShell.Header>
 
-        <AppShell.Main h={props.fullHeight ? `100vh` : "100%"} bg={setting.bg}>
-          <Stack h="100%">{props.children}</Stack>
+        <AppShell.Main h={props.fullPage ? `100vh` : "100%"} bg={setting.bg}>
+          {props.children}
         </AppShell.Main>
       </AppShell>
     </>

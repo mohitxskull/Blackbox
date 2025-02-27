@@ -21,5 +21,12 @@ export const MantineTheme = createTheme({
         bg: "dark.8",
       },
     },
+    Modal: {
+      styles: {
+        header: {
+          background: "var(--mantine-color-dark-8)",
+        },
+      },
+    },
   },
 });

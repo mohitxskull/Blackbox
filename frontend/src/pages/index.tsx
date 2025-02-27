@@ -15,7 +15,7 @@ import Link from "next/link";
 export default function Page() {
   return (
     <>
-      <AppShell header={{ height: setting.headerHeight }} padding="md">
+      <AppShell header={{ height: setting.header.height }} padding="md">
         <AppShell.Header withBorder={false} px="md" bg="transparent">
           <Group justify="space-between" h="100%">
             <Logo size="lg" />
@@ -32,7 +32,7 @@ export default function Page() {
         </AppShell.Header>
 
         <AppShell.Main
-          h={`calc(100vh - ${setting.headerHeight}px)`}
+          h={`calc(100vh - ${setting.header.height}px)`}
           bg={setting.bg}
         >
           <Center h="100%">

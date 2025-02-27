@@ -10,7 +10,7 @@ export const boot = async () => {
     },
     {
       email: 'mohitxskull@gmail.com',
-      password: 'master',
+      password: 'master$master',
       firstName: 'Skull',
       lastName: 'Dot',
       key: null,

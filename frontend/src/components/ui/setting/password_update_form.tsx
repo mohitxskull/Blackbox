@@ -3,7 +3,7 @@ import { Form, RightGroup } from "@folie/cobalt/components";
 import { Button, PasswordInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
-export const ProfilePasswordUpdateForm = () => {
+export const SettingPasswordUpdateForm = () => {
   const [form, iProps, iKey, [mutation, submit]] = cobalt.useForm({
     endpoint: "V1_AUTH_PASSWORD_UPDATE",
     form: {
@@ -37,6 +37,8 @@ export const ProfilePasswordUpdateForm = () => {
               placeholder="Type your old password"
               required
               withAsterisk={false}
+              minLength={8}
+              maxLength={32}
               {...iProps(["oldPassword"])}
               key={iKey(["oldPassword"])}
             />
@@ -46,6 +48,8 @@ export const ProfilePasswordUpdateForm = () => {
               placeholder="Type your new password"
               required
               withAsterisk={false}
+              minLength={8}
+              maxLength={32}
               {...iProps(["newPassword"])}
               key={iKey(["newPassword"])}
             />

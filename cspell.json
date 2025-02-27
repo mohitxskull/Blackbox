@@ -27,6 +27,7 @@
     "blackbox",
     "marsidev",
     "adonisrc",
-    "apos"
+    "apos",
+    "jotai"
   ]
 }

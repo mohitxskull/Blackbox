@@ -1,14 +1,15 @@
+import { HorizontalInput } from "@/components/horizontal_input";
 import { cobalt } from "@/configs/cobalt";
 import { V1AuthSessionRoute } from "@blackbox/backend/blueprint";
 import { Form, RightGroup } from "@folie/cobalt/components";
-import { Button, TextInput } from "@mantine/core";
+import { Button, Group, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
 type Props = {
   session: V1AuthSessionRoute["output"]["session"];
 };
 
-export const ProfileUpdateForm = (props: Props) => {
+export const SettingGeneralUpdateForm = (props: Props) => {
   const [form, iProps, iKey, [mutation, submit]] = cobalt.useForm({
     endpoint: "V1_AUTH_PROFILE_UPDATE",
     form: {
@@ -36,19 +37,35 @@ export const ProfileUpdateForm = (props: Props) => {
       <Form mutation={mutation} submit={submit} form={form}>
         {({ dirty, loading }) => (
           <>
-            <TextInput
-              label="First Name"
-              placeholder="John"
-              {...iProps(["firstName"])}
-              key={iKey(["firstName"])}
-            />
+            <HorizontalInput
+              label="Name"
+              description="This name will be visible to users with whom you will share your passwords, notes etc."
+            >
+              <Group grow>
+                <TextInput
+                  placeholder="John"
+                  {...iProps(["firstName"])}
+                  key={iKey(["firstName"])}
+                />
 
-            <TextInput
-              label="Last Name"
-              placeholder="Doe"
-              {...iProps(["lastName"])}
-              key={iKey(["lastName"])}
-            />
+                <TextInput
+                  placeholder="Doe"
+                  {...iProps(["lastName"])}
+                  key={iKey(["lastName"])}
+                />
+              </Group>
+            </HorizontalInput>
+
+            <HorizontalInput
+              label="Email"
+              description="This is your primary email address."
+            >
+              <TextInput
+                placeholder="someone@gmail.com"
+                readOnly
+                value={props.session.email}
+              />
+            </HorizontalInput>
 
             <RightGroup>
               <Button type="submit" loading={loading} disabled={!dirty}>

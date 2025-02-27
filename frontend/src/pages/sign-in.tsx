@@ -103,6 +103,8 @@ export default function Page() {
                         {...inputProps(["password"])}
                         key={inputKey(["password"])}
                         required
+                        minLength={8}
+                        maxLength={32}
                         withAsterisk={false}
                       />
 
