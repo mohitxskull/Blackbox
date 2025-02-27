@@ -24,8 +24,8 @@ type Props<T> = {
 export const HorizontalInput = <T,>(props: Props<T>) => {
   return (
     <Stack>
-      <Grid columns={12}>
-        <Grid.Col span={{ base: 12, md: 8 }}>
+      <Grid columns={12} gutter={{ base: "xs", md: 100 }}>
+        <Grid.Col span={{ base: 12, md: 6 }}>
           <Stack gap={0}>
             <InputLabel>{props.label}</InputLabel>
             <InputDescription>{props.description}</InputDescription>

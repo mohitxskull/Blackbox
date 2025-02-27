@@ -43,13 +43,13 @@ export const SettingGeneralUpdateForm = (props: Props) => {
             >
               <Group grow>
                 <TextInput
-                  placeholder="John"
+                  placeholder="First Name"
                   {...iProps(["firstName"])}
                   key={iKey(["firstName"])}
                 />
 
                 <TextInput
-                  placeholder="Doe"
+                  placeholder="Last Name"
                   {...iProps(["lastName"])}
                   key={iKey(["lastName"])}
                 />

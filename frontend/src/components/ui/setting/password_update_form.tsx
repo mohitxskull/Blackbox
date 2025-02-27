@@ -1,6 +1,7 @@
+import { HorizontalInput } from "@/components/horizontal_input";
 import { cobalt } from "@/configs/cobalt";
 import { Form, RightGroup } from "@folie/cobalt/components";
-import { Button, PasswordInput } from "@mantine/core";
+import { Button, PasswordInput, Stack } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
 export const SettingPasswordUpdateForm = () => {
@@ -32,27 +33,32 @@ export const SettingPasswordUpdateForm = () => {
       <Form mutation={mutation} submit={submit} form={form}>
         {({ dirty, loading }) => (
           <>
-            <PasswordInput
-              label="Old Password"
-              placeholder="Type your old password"
-              required
-              withAsterisk={false}
-              minLength={8}
-              maxLength={32}
-              {...iProps(["oldPassword"])}
-              key={iKey(["oldPassword"])}
-            />
+            <HorizontalInput
+              label="Password"
+              description="Please enter your current and new password to update your credentials."
+            >
+              <Stack>
+                <PasswordInput
+                  placeholder="Old password"
+                  required
+                  withAsterisk={false}
+                  minLength={8}
+                  maxLength={32}
+                  {...iProps(["oldPassword"])}
+                  key={iKey(["oldPassword"])}
+                />
 
-            <PasswordInput
-              label="New Password"
-              placeholder="Type your new password"
-              required
-              withAsterisk={false}
-              minLength={8}
-              maxLength={32}
-              {...iProps(["newPassword"])}
-              key={iKey(["newPassword"])}
-            />
+                <PasswordInput
+                  placeholder="New password"
+                  required
+                  withAsterisk={false}
+                  minLength={8}
+                  maxLength={32}
+                  {...iProps(["newPassword"])}
+                  key={iKey(["newPassword"])}
+                />
+              </Stack>
+            </HorizontalInput>
 
             <RightGroup>
               <Button type="submit" loading={loading} disabled={!dirty}>

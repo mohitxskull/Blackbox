@@ -6,7 +6,7 @@ import { cobaltServer } from "@/configs/cobalt_server";
 import { useSession } from "@/lib/hooks/use_session";
 import { activePageAtom } from "@/lib/jotai";
 import { Show } from "@folie/cobalt/components";
-import { Center, Text } from "@mantine/core";
+import { Center, Loader, Text } from "@mantine/core";
 import { useAtomValue } from "jotai";
 
 export const getServerSideProps = cobaltServer.secure();
@@ -20,7 +20,16 @@ export default function Page() {
     <>
       <AppLayout fullPage>
         <>
-          <LocalQueryLoader query={session}>
+          <LocalQueryLoader
+            query={session}
+            isLoading={
+              <>
+                <Center h="100%">
+                  <Loader />
+                </Center>
+              </>
+            }
+          >
             {({ session }) => (
               <>
                 <Show>

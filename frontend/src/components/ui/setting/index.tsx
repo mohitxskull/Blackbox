@@ -21,7 +21,7 @@ export const VaultSettingPage = (props: Props) => {
   return (
     <>
       <Container mt="xl">
-        <Stack gap="xs">
+        <Stack>
           <Group>
             <Avatar size="xl" radius="md">
               <BoringAvatar
@@ -45,7 +45,7 @@ export const VaultSettingPage = (props: Props) => {
 
           <SettingGeneralUpdateForm session={props.session} />
 
-          <Divider label="Password" labelPosition="left" />
+          <Divider />
 
           <SettingPasswordUpdateForm />
         </Stack>
