@@ -24,15 +24,8 @@ export const setting = {
   },
 
   secureObject: {
-    simple: {
-      maxCount: 500,
-      maxSize: string.bytes.parse('2KB')!,
-    },
-
-    tag: {
-      maxCount: 50,
-      maxSize: string.bytes.parse('1KB')!,
-    },
+    maxCount: 500,
+    maxSize: string.bytes.parse('2KB')!,
   },
 
   secureKey: {

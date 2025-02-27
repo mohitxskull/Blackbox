@@ -6,9 +6,7 @@ import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { table } from '#config/tables'
 import { squid } from '#config/squid'
 import cache from '@adonisjs/cache/services/main'
-import User from './user.js'
-import { SecureObjectType, type SecureObjectTypeKeys } from '#types/enum'
-import { EnumColumn } from '@folie/castle/column/enum'
+import Vault from './vault.js'
 
 export default class SecureObject extends BaseModel {
   static table = table.SECURE_OBJECT()
@@ -19,7 +17,7 @@ export default class SecureObject extends BaseModel {
     return {
       id: squid.USER.encode(row.id),
 
-      userId: row.userId,
+      vaultId: row.vaultId,
       value: row.value,
       key: row.key,
       version: row.version,
@@ -37,7 +35,7 @@ export default class SecureObject extends BaseModel {
     return {
       id: this.id,
 
-      userId: this.userId,
+      vaultId: this.vaultId,
       value: this.value,
       key: this.key,
       version: this.version,
@@ -67,13 +65,10 @@ export default class SecureObject extends BaseModel {
   declare id: number
 
   @column()
-  declare userId: number
+  declare vaultId: number
 
   @column()
   declare key: string
-
-  @column(EnumColumn(SecureObjectType.enum))
-  declare type: SecureObjectTypeKeys | null
 
   @column()
   declare value: string
@@ -93,8 +88,8 @@ export default class SecureObject extends BaseModel {
 
   // Relations =============================
 
-  @belongsTo(() => User)
-  declare user: BelongsTo<typeof User>
+  @belongsTo(() => Vault)
+  declare vault: BelongsTo<typeof Vault>
 
   // Extra ======================================
 

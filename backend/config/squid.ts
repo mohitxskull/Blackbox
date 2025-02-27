@@ -16,4 +16,8 @@ export const squid = {
   SECURE_OBJECT: squidFactory.create({
     prefix: 'obj',
   }),
+
+  VAULT: squidFactory.create({
+    prefix: 'val',
+  }),
 }

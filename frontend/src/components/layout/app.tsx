@@ -3,8 +3,7 @@ import { setting } from "@/configs/setting";
 import { Logo } from "../logo";
 import { useSignOut } from "@/lib/hooks/use_sign_out";
 import { askConfirmation } from "@/lib/helpers/confirmation_modal";
-import { useSetAtom } from "jotai";
-import { activePageAtom } from "@/lib/jotai";
+import { useBlackboxContext } from "@/lib/context/base";
 
 type Props = {
   children: React.ReactNode;
@@ -15,7 +14,7 @@ type Props = {
 export const AppLayout = (props: Props) => {
   const [mutation, signout] = useSignOut();
 
-  const setActivePage = useSetAtom(activePageAtom);
+  const { setActivePage } = useBlackboxContext();
 
   return (
     <>

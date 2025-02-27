@@ -21,7 +21,7 @@ import { useTimeout } from "@mantine/hooks";
 import { NavigationLoading } from "@/components/navigation_loading";
 import { ContextMenuProvider } from "mantine-contextmenu";
 import { setting } from "@/configs/setting";
-import { Provider } from "jotai";
+import { BlackboxContext } from "@/lib/context";
 
 export default function App({
   Component,
@@ -65,32 +65,32 @@ export default function App({
           },
         ]}
       />
-      <CobaltContext
-        cobalt={cobalt}
-        config={CobaltConfig}
-        mantine={MantineTheme}
-        router={router}
-        navigation={{
-          started: (url) => {
-            if (url !== router.asPath) {
-              setNavigationState(true);
-            }
-          },
-          completed: () => {
-            setNavigationState(false);
-          },
-        }}
-      >
-        <CobaltAPIContext>
-          <NavigationLoading opened={NavigationState}>
-            <ContextMenuProvider>
-              <Provider>
+      <BlackboxContext>
+        <CobaltContext
+          cobalt={cobalt}
+          config={CobaltConfig}
+          mantine={MantineTheme}
+          router={router}
+          navigation={{
+            started: (url) => {
+              if (url !== router.asPath) {
+                setNavigationState(true);
+              }
+            },
+            completed: () => {
+              setNavigationState(false);
+            },
+          }}
+        >
+          <CobaltAPIContext>
+            <NavigationLoading opened={NavigationState}>
+              <ContextMenuProvider>
                 <Component {...pageProps} />
-              </Provider>
-            </ContextMenuProvider>
-          </NavigationLoading>
-        </CobaltAPIContext>
-      </CobaltContext>
+              </ContextMenuProvider>
+            </NavigationLoading>
+          </CobaltAPIContext>
+        </CobaltContext>
+      </BlackboxContext>
     </>
   );
 }

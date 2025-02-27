@@ -11,15 +11,10 @@ export const PasswordSchema = vine
   .minLength(setting.passwordRequirement.size.min)
   .maxLength(setting.passwordRequirement.size.max)
 
-export const SimpleSecureObjectValueSchema = vine
+export const SecureObjectValueSchema = vine
   .string()
   .minLength(1)
-  .maxLength(setting.secureObject.simple.maxSize)
-
-export const TagSecureObjectValueSchema = vine
-  .string()
-  .minLength(1)
-  .maxLength(setting.secureObject.tag.maxSize)
+  .maxLength(setting.secureObject.maxSize)
 
 export const SecureKeySchema = vine
   .string()

@@ -1,6 +1,6 @@
 import { squid } from '#config/squid'
 import { SecureObjectType } from '#types/enum'
-import { SimpleSecureObjectValueSchema, TagSecureObjectValueSchema } from '#validators/index'
+import { SecureObjectValueSchema, TagSecureObjectValueSchema } from '#validators/index'
 import { routeController } from '@folie/castle'
 import ProcessingException from '@folie/castle/exception/processing_exception'
 import vine from '@vinejs/vine'
@@ -15,7 +15,7 @@ export default routeController({
       type: vine.enum(SecureObjectType.keys).nullable(),
       value: vine
         .union([
-          vine.union.if((v) => v.type === null, SimpleSecureObjectValueSchema),
+          vine.union.if((v) => v.type === null, SecureObjectValueSchema),
           vine.union.if(
             (v) => vine.helpers.isString(v.type) && v.type === SecureObjectType.key('TAG'),
             TagSecureObjectValueSchema

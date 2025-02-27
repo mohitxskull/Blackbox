@@ -1,16 +1,14 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeSave, column, hasMany } from '@adonisjs/lucid/orm'
+import { BaseModel, beforeSave, column, hasMany, hasOne } from '@adonisjs/lucid/orm'
 import { StaticModelCache } from '@folie/castle/service/model_cache_service'
 import { serializeDT } from '@folie/castle/helpers/serialize'
 import hash from '@adonisjs/core/services/hash'
 import Session from './session.js'
-import type { HasMany } from '@adonisjs/lucid/types/relations'
+import type { HasMany, HasOne } from '@adonisjs/lucid/types/relations'
 import { table } from '#config/tables'
 import { squid } from '#config/squid'
 import cache from '@adonisjs/cache/services/main'
-import SecureObject from './secure_object.js'
-import { JSONColumn } from '@folie/castle/column/json'
-import { SecureObjectType } from '#types/enum'
+import Vault from './vault.js'
 
 export default class User extends BaseModel {
   static table = table.USER()
@@ -25,7 +23,6 @@ export default class User extends BaseModel {
       lastName: row.lastName,
 
       email: row.email,
-      setting: row.setting,
 
       createdAt: serializeDT(row.createdAt),
       updatedAt: serializeDT(row.updatedAt),
@@ -46,8 +43,6 @@ export default class User extends BaseModel {
 
       email: this.email,
       password: this.password,
-      key: this.key,
-      setting: this.setting,
 
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
@@ -58,7 +53,7 @@ export default class User extends BaseModel {
   // Cache =============================
 
   static cache() {
-    return new StaticModelCache<User, 'metric'>(
+    return new StaticModelCache<User>(
       cache.namespace(this.table),
       (v) => new User().fill(v),
       (i) => User.find(i)
@@ -67,36 +62,6 @@ export default class User extends BaseModel {
 
   cache() {
     return User.cache().internal(this)
-  }
-
-  $metric(this: User, options?: { latest?: boolean }) {
-    return this.cache().get({
-      key: 'metric',
-      factory: async () => {
-        const [simpleObjectCount, tagObjectCount] = await Promise.all([
-          await this.related('secureObjects').query().whereNull('type').count('* as total').first(),
-          await this.related('secureObjects')
-            .query()
-            .where('type', SecureObjectType.keyof('TAG'))
-            .count('* as $$total')
-            .first(),
-        ])
-
-        if (!simpleObjectCount || !tagObjectCount) {
-          throw new Error('Failed to fetch metric data')
-        }
-
-        return {
-          simpleObjectCount: simpleObjectCount.$$total,
-          tagObjectCount: tagObjectCount.$$total,
-        }
-      },
-      parser: async (o) => o,
-      latest: options?.latest,
-      options: {
-        ttl: '1 hour',
-      },
-    })
   }
 
   // Columns =============================
@@ -115,12 +80,6 @@ export default class User extends BaseModel {
 
   @column()
   declare password: string
-
-  @column()
-  declare key: string | null
-
-  @column(JSONColumn())
-  declare setting: { timeout: number | null }
 
   // DateTime =============================
 
@@ -147,8 +106,8 @@ export default class User extends BaseModel {
   @hasMany(() => Session)
   declare sessions: HasMany<typeof Session>
 
-  @hasMany(() => SecureObject)
-  declare secureObjects: HasMany<typeof SecureObject>
+  @hasOne(() => Vault)
+  declare vault: HasOne<typeof Vault>
 
   // Extra ======================================
 }

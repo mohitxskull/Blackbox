@@ -56,16 +56,18 @@ export default routeController({
           lastName: payload.lastName,
           email: payload.email,
           password: payload.password,
-          key: null,
-          setting: {
-            timeout: 5 * 60, // 5 minutes
-          },
           verifiedAt: setting.signUp.verification.enabled ? null : DateTime.utc(),
         },
         {
           client: trx,
         }
       )
+
+      await user.related('vault').create({
+        version: 0,
+        key: '',
+        timeout: 5 * 60,
+      })
 
       let message = 'You have successfully signed up'
 

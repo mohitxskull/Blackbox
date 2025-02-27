@@ -3,16 +3,15 @@ import { LocalQueryLoader } from "@/components/query_loader";
 import { VaultHomePage } from "@/components/ui/home";
 import { VaultSettingPage } from "@/components/ui/setting";
 import { cobaltServer } from "@/configs/cobalt_server";
+import { useBlackboxContext } from "@/lib/context/base";
 import { useSession } from "@/lib/hooks/use_session";
-import { activePageAtom } from "@/lib/jotai";
 import { Show } from "@folie/cobalt/components";
 import { Center, Loader, Text } from "@mantine/core";
-import { useAtomValue } from "jotai";
 
 export const getServerSideProps = cobaltServer.secure();
 
 export default function Page() {
-  const activePage = useAtomValue(activePageAtom);
+  const { activePage } = useBlackboxContext();
 
   const session = useSession();
 

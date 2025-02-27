@@ -2,7 +2,7 @@ import { setting } from '#config/setting'
 import { SecureObjectType } from '#types/enum'
 import {
   SecureKeySchema,
-  SimpleSecureObjectValueSchema,
+  SecureObjectValueSchema,
   TagSecureObjectValueSchema,
 } from '#validators/index'
 import { routeController } from '@folie/castle'
@@ -16,7 +16,7 @@ export default routeController({
       type: vine.enum(SecureObjectType.keys).nullable(),
       value: vine
         .union([
-          vine.union.if((v) => v.type === null, SimpleSecureObjectValueSchema),
+          vine.union.if((v) => v.type === null, SecureObjectValueSchema),
           vine.union.if((v) => v.type === SecureObjectType.key('TAG'), TagSecureObjectValueSchema),
         ])
         .otherwise((_, field) => {

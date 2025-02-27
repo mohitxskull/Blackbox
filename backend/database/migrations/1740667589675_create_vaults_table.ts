@@ -2,22 +2,22 @@ import { table } from '#config/tables'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
-  protected tableName = table.USER()
+  protected tableName = table.VAULT()
 
   async up() {
     this.schema.createTable(this.tableName, (t) => {
       t.increments('id')
 
-      t.string('first_name', 255).nullable()
-      t.string('last_name', 255).nullable()
+      t.integer('user_id').unsigned().references(table.USER('id')).notNullable().onDelete('CASCADE')
 
-      t.string('email', 200).notNullable().unique()
+      t.text('key').notNullable()
 
-      t.text('password').notNullable()
+      t.integer('version').notNullable()
+
+      t.integer('timeout').nullable()
 
       t.timestamp('created_at')
       t.timestamp('updated_at')
-      t.timestamp('verified_at').nullable()
     })
   }
 

@@ -28,6 +28,11 @@
     "marsidev",
     "adonisrc",
     "apos",
-    "jotai"
+    "jotai",
+    "zxcvbn",
+    "rxdb",
+    "dexie",
+    "wght",
+    "slnt"
   ]
 }

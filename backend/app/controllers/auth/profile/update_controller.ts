@@ -7,11 +7,6 @@ export default routeController({
     vine.object({
       firstName: TextSchema.optional(),
       lastName: TextSchema.optional(),
-      setting: vine
-        .object({
-          timeout: vine.number().min(10).max(3600).nullable().optional(),
-        })
-        .optional(),
     })
   ),
 
@@ -24,13 +19,6 @@ export default routeController({
 
     if (payload.lastName) {
       user.lastName = payload.lastName
-    }
-
-    if (payload.setting?.timeout !== undefined) {
-      user.setting = {
-        ...user.setting,
-        timeout: payload.setting.timeout,
-      }
     }
 
     await user.save()

@@ -7,6 +7,7 @@ export default routeController({
   input: vine.compile(
     vine.object({
       key: SecureKeySchema,
+      
     })
   ),
 

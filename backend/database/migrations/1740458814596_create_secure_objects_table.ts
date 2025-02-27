@@ -10,9 +10,11 @@ export default class extends BaseSchema {
 
       t.text('key').notNullable()
 
-      t.integer('type').nullable()
-
-      t.integer('user_id').unsigned().references(table.USER('id')).notNullable().onDelete('CASCADE')
+      t.integer('vault_id')
+        .unsigned()
+        .references(table.VAULT('id'))
+        .notNullable()
+        .onDelete('CASCADE')
 
       t.text('value').notNullable()
 
