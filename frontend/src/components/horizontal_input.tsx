@@ -4,6 +4,7 @@ import {
   Grid,
   InputDescription,
   InputLabel,
+  MantineSpacing,
   Stack,
 } from "@mantine/core";
 
@@ -18,13 +19,14 @@ type Props<T> = {
   value?: T;
   defaultValue?: T;
   onChange?: (value: T) => void;
-  checkbox?: boolean;
+  rightAlign?: boolean;
+  gutter?: MantineSpacing;
 };
 
 export const HorizontalInput = <T,>(props: Props<T>) => {
   return (
     <Stack>
-      <Grid columns={12} gutter={{ base: "xs", md: 100 }}>
+      <Grid columns={12} gutter={{ base: "xs", md: props.gutter ?? 100 }}>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Stack gap={0}>
             <InputLabel>{props.label}</InputLabel>
@@ -35,7 +37,7 @@ export const HorizontalInput = <T,>(props: Props<T>) => {
           <Stack
             h="100%"
             justify="center"
-            align={props.checkbox ? "end" : undefined}
+            align={props.rightAlign ? "end" : undefined}
             w="100%"
           >
             {props.children}

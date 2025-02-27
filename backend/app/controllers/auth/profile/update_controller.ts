@@ -9,7 +9,7 @@ export default routeController({
       lastName: TextSchema.optional(),
       setting: vine
         .object({
-          timeout: vine.number().min(0).max(3600).nullable().optional(),
+          timeout: vine.number().min(10).max(3600).nullable().optional(),
         })
         .optional(),
     })
