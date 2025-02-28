@@ -6,22 +6,33 @@ import vine from '@vinejs/vine'
 export default routeController({
   input: vine.compile(
     vine.object({
-      key: SecureKeySchema,
-      
+      key: SecureKeySchema.optional(),
+      timeout: vine.number().min(10).max(3600).nullable().optional(),
     })
   ),
 
   handle: async ({ payload, ctx }) => {
     const { user } = ctx.session
 
-    if (user.key) {
-      throw new ProcessingException('Key has been already set')
+    await user.load('vault')
+
+    if (payload.key !== undefined) {
+      if (user.vault.isActive()) {
+        throw new ProcessingException('Vault is already active')
+      }
+
+      user.vault.key = payload.key
     }
 
-    user.key = payload.key
+    if (payload.timeout !== undefined) {
+      user.vault.timeout = payload.timeout
+    }
 
-    await user.save()
+    await user.vault.save()
 
-    return { message: 'Key updated successfully' }
+    return {
+      vault: user.vault.$serialize(),
+      message: 'Vault updated successfully',
+    }
   },
 })

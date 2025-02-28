@@ -1,4 +1,5 @@
 import { squid } from '#config/squid'
+import db from '@adonisjs/lucid/services/db'
 import { routeController } from '@folie/castle'
 import ProcessingException from '@folie/castle/exception/processing_exception'
 import vine from '@vinejs/vine'
@@ -13,20 +14,48 @@ export default routeController({
   ),
 
   handle: async ({ payload, ctx }) => {
-    const { user } = ctx.session
+    const trx = await db.transaction({
+      isolationLevel: 'read committed',
+    })
 
-    const secureObject = await user
-      .related('secureObjects')
-      .query()
-      .where('id', payload.params.secretObjectId)
-      .first()
+    try {
+      const { user } = ctx.session
 
-    if (!secureObject) {
-      throw new ProcessingException('Secure object not found')
+      user.useTransaction(trx)
+
+      await user.load('vault')
+
+      const secureObject = await user.vault
+        .related('secureObjects')
+        .query()
+        .where('id', payload.params.secretObjectId)
+        .first()
+
+      if (!secureObject) {
+        throw new ProcessingException('Secure object not found')
+      }
+
+      await Promise.all([
+        user.vault.refresh(),
+        secureObject.delete(),
+        user.vault.cache().expire('metric'),
+      ])
+
+      user.vault.version += 1
+
+      user.vault.save()
+
+      await trx.commit()
+
+      return {
+        vault: user.vault.$serialize(),
+        secureObject: secureObject.$serialize(),
+        message: 'Secure object deleted successfully',
+      }
+    } catch (error) {
+      await trx.rollback()
+
+      throw error
     }
-
-    await Promise.all([secureObject.delete(), user.cache().expire('metric')])
-
-    return { secureObject: secureObject.$serialize() }
   },
 })

@@ -1,6 +1,6 @@
 import { squid } from '#config/squid'
-import { SecureObjectType } from '#types/enum'
-import { SecureObjectValueSchema, TagSecureObjectValueSchema } from '#validators/index'
+import { SecureObjectValueSchema } from '#validators/index'
+import db from '@adonisjs/lucid/services/db'
 import { routeController } from '@folie/castle'
 import ProcessingException from '@folie/castle/exception/processing_exception'
 import vine from '@vinejs/vine'
@@ -12,23 +12,28 @@ export default routeController({
         secretObjectId: squid.SECURE_OBJECT.schema,
       }),
       version: vine.number().min(1).max(1000),
-      type: vine.enum(SecureObjectType.keys).nullable(),
-      value: vine
-        .union([
-          vine.union.if((v) => v.type === null, SecureObjectValueSchema),
-          vine.union.if(
-            (v) => vine.helpers.isString(v.type) && v.type === SecureObjectType.key('TAG'),
-            TagSecureObjectValueSchema
-          ),
-        ])
-        .otherwise((_, field) => {
-          field.report('Invalid secure object type', 'invalid_secure_object', field)
-        }),
+      value: SecureObjectValueSchema,
     })
   ),
 
   handle: async ({ payload, ctx }) => {
-    const { user } = ctx.session
+    const trx = await db.transaction({
+      isolationLevel: 'read committed',
+    })
+
+    try {
+      const { user } = ctx.session
+
+      user.useTransaction(trx)
+
+      await user.load('vault')
+
+      await trx.commit()
+    } catch (error) {
+      await trx.rollback()
+
+      throw error
+    }
 
     const secureObject = await user
       .related('secureObjects')

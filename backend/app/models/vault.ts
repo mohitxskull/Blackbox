@@ -122,7 +122,7 @@ export default class Vault extends BaseModel {
 
   // Extra ======================================
 
-  active() {
+  isActive() {
     return this.version > 0
   }
 }

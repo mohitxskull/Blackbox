@@ -15,7 +15,9 @@ export default routeController({
   handle: async ({ payload, ctx }) => {
     const { user } = ctx.session
 
-    const secureObject = await user
+    await user.load('vault')
+
+    const secureObject = await user.vault
       .related('secureObjects')
       .query()
       .where('id', payload.params.secureObjectId)
