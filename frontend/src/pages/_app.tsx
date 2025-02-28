@@ -65,32 +65,32 @@ export default function App({
           },
         ]}
       />
-      <BlackboxContext>
-        <CobaltContext
-          cobalt={cobalt}
-          config={CobaltConfig}
-          mantine={MantineTheme}
-          router={router}
-          navigation={{
-            started: (url) => {
-              if (url !== router.asPath) {
-                setNavigationState(true);
-              }
-            },
-            completed: () => {
-              setNavigationState(false);
-            },
-          }}
-        >
-          <CobaltAPIContext>
+      <CobaltContext
+        cobalt={cobalt}
+        config={CobaltConfig}
+        mantine={MantineTheme}
+        router={router}
+        navigation={{
+          started: (url) => {
+            if (url !== router.asPath) {
+              setNavigationState(true);
+            }
+          },
+          completed: () => {
+            setNavigationState(false);
+          },
+        }}
+      >
+        <CobaltAPIContext>
+          <BlackboxContext>
             <NavigationLoading opened={NavigationState}>
               <ContextMenuProvider>
                 <Component {...pageProps} />
               </ContextMenuProvider>
             </NavigationLoading>
-          </CobaltAPIContext>
-        </CobaltContext>
-      </BlackboxContext>
+          </BlackboxContext>
+        </CobaltAPIContext>
+      </CobaltContext>
     </>
   );
 }

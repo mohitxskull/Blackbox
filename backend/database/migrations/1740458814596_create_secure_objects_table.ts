@@ -20,7 +20,7 @@ export default class extends BaseSchema {
 
       t.integer('version').notNullable().defaultTo(0)
 
-      t.unique(['user_id', 'version'])
+      t.unique(['vault_id', 'version'])
 
       t.timestamp('created_at')
       t.timestamp('updated_at')
