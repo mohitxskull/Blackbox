@@ -21,7 +21,6 @@ import { useTimeout } from "@mantine/hooks";
 import { NavigationLoading } from "@/components/navigation_loading";
 import { ContextMenuProvider } from "mantine-contextmenu";
 import { setting } from "@/configs/setting";
-import { BlackboxContext } from "@/lib/context";
 
 export default function App({
   Component,
@@ -82,13 +81,11 @@ export default function App({
         }}
       >
         <CobaltAPIContext>
-          <BlackboxContext>
-            <NavigationLoading opened={NavigationState}>
-              <ContextMenuProvider>
-                <Component {...pageProps} />
-              </ContextMenuProvider>
-            </NavigationLoading>
-          </BlackboxContext>
+          <NavigationLoading opened={NavigationState}>
+            <ContextMenuProvider>
+              <Component {...pageProps} />
+            </ContextMenuProvider>
+          </NavigationLoading>
         </CobaltAPIContext>
       </CobaltContext>
     </>

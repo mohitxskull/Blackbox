@@ -1,4 +1,3 @@
-import { V1AuthSessionRoute } from "@blackbox/backend/blueprint";
 import {
   Avatar,
   Container,
@@ -14,14 +13,9 @@ import { SettingGeneralUpdateForm } from "./update_form";
 import { SettingPasswordUpdateForm } from "./password_update_form";
 import { SettingVaultUpdateForm } from "./vault_update_form";
 import { useBlackboxContext } from "@/lib/context/base";
-import { LocalQueryLoader } from "@/components/query_loader";
 
-type Props = {
-  session: V1AuthSessionRoute["output"]["session"];
-};
-
-export const VaultSettingPage = (props: Props) => {
-  const { vaultQ } = useBlackboxContext();
+export const VaultSettingPage = () => {
+  const { vault, session } = useBlackboxContext();
 
   return (
     <>
@@ -30,7 +24,7 @@ export const VaultSettingPage = (props: Props) => {
           <Group>
             <Avatar size="xl" radius="md">
               <BoringAvatar
-                name={props.session.id}
+                name={session.id}
                 square
                 variant="beam"
                 colors={["#141414", "#c9c9c9"]}
@@ -39,10 +33,10 @@ export const VaultSettingPage = (props: Props) => {
 
             <Stack gap={0}>
               <Title order={3}>
-                {props.session.firstName} {props.session.lastName}
+                {session.firstName} {session.lastName}
               </Title>
 
-              <Text c="dimmed">{props.session.email}</Text>
+              <Text c="dimmed">{session.email}</Text>
             </Stack>
           </Group>
 
@@ -56,7 +50,7 @@ export const VaultSettingPage = (props: Props) => {
             </Tabs.List>
 
             <Tabs.Panel value="general" pt="xl">
-              <SettingGeneralUpdateForm session={props.session} />
+              <SettingGeneralUpdateForm />
             </Tabs.Panel>
 
             <Tabs.Panel value="security" pt="xl">
@@ -64,13 +58,7 @@ export const VaultSettingPage = (props: Props) => {
             </Tabs.Panel>
 
             <Tabs.Panel value="vault" pt="xl">
-              <LocalQueryLoader query={vaultQ}>
-                {({ vault }) => (
-                  <>
-                    <SettingVaultUpdateForm vault={vault} />
-                  </>
-                )}
-              </LocalQueryLoader>
+              <SettingVaultUpdateForm vault={vault} />
             </Tabs.Panel>
           </Tabs>
         </Stack>

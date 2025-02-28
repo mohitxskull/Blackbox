@@ -1,21 +1,19 @@
 import { HorizontalInput } from "@/components/horizontal_input";
 import { cobalt } from "@/configs/cobalt";
-import { V1AuthSessionRoute } from "@blackbox/backend/blueprint";
+import { useBlackboxContext } from "@/lib/context/base";
 import { Form, RightGroup } from "@folie/cobalt/components";
 import { Button, Group, TextInput } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
-type Props = {
-  session: V1AuthSessionRoute["output"]["session"];
-};
+export const SettingGeneralUpdateForm = () => {
+  const { session } = useBlackboxContext();
 
-export const SettingGeneralUpdateForm = (props: Props) => {
   const [form, iProps, iKey, [mutation, submit]] = cobalt.useForm({
     endpoint: "V1_AUTH_PROFILE_UPDATE",
     form: {
       values: {
-        firstName: props.session.firstName,
-        lastName: props.session.lastName,
+        firstName: session.firstName,
+        lastName: session.lastName,
       },
     },
     onSuccess: (updatedData) => {
@@ -63,7 +61,7 @@ export const SettingGeneralUpdateForm = (props: Props) => {
               <TextInput
                 placeholder="someone@gmail.com"
                 readOnly
-                value={props.session.email}
+                value={session.email}
               />
             </HorizontalInput>
 

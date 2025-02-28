@@ -22,6 +22,7 @@ export default routeController({
       }
 
       user.vault.key = payload.key
+      user.vault.version = 1
     }
 
     if (payload.timeout !== undefined) {

@@ -22,6 +22,7 @@ export default class Vault extends BaseModel {
       key: row.key,
       version: row.version,
       timeout: row.timeout,
+      isActive: row.isActive(),
 
       createdAt: serializeDT(row.createdAt),
       updatedAt: serializeDT(row.updatedAt),

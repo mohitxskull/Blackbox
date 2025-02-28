@@ -1,26 +1,23 @@
-import { AppShell, Button, Group, MantineSpacing } from "@mantine/core";
+import { useBlackboxContext } from "@/lib/context/base";
+import { Show } from "@folie/cobalt/components";
+import { VaultHomePage } from "../ui/home";
+import { AppShell, Button, Center, Group, Text } from "@mantine/core";
+import { VaultSettingPage } from "../ui/setting";
 import { setting } from "@/configs/setting";
 import { Logo } from "../logo";
 import { useSignOut } from "@/lib/hooks/use_sign_out";
 import { askConfirmation } from "@/lib/helpers/confirmation_modal";
-import { useBlackboxContext } from "@/lib/context/base";
 
-type Props = {
-  children: React.ReactNode;
-  fullPage?: boolean;
-  padding?: MantineSpacing;
-};
+export const VaultLayout = () => {
+  const [signOutM, signOut] = useSignOut();
 
-export const AppLayout = (props: Props) => {
-  const [mutation, signout] = useSignOut();
-
-  const { setActivePage } = useBlackboxContext();
+  const { activePage, setActivePage } = useBlackboxContext();
 
   return (
     <>
       <AppShell
         header={{ height: setting.header.height }}
-        padding={props.padding ?? "md"}
+        padding="md"
         layout="alt"
       >
         <AppShell.Header withBorder={false} bg="transparent">
@@ -33,7 +30,7 @@ export const AppLayout = (props: Props) => {
                 fw="500"
                 variant="transparent"
                 px="xs"
-                disabled={mutation.isPending}
+                disabled={signOutM.isPending}
                 onClick={() => setActivePage("setting")}
               >
                 Setting
@@ -42,14 +39,14 @@ export const AppLayout = (props: Props) => {
               <Button
                 fw="500"
                 variant="transparent"
-                disabled={mutation.isPending}
+                disabled={signOutM.isPending}
                 c="red"
                 px="xs"
                 onClick={() => {
                   askConfirmation({
                     message: "Are you sure you want to logout?",
                     confirmLabel: "Logout",
-                    onConfirm: () => signout({}),
+                    onConfirm: () => signOut({}),
                   });
                 }}
               >
@@ -59,8 +56,24 @@ export const AppLayout = (props: Props) => {
           </Group>
         </AppShell.Header>
 
-        <AppShell.Main h={props.fullPage ? `100vh` : "100%"} bg={setting.bg}>
-          {props.children}
+        <AppShell.Main h="100vh" bg={setting.bg}>
+          <Show>
+            <Show.When isTrue={activePage === "home"}>
+              <VaultHomePage />
+            </Show.When>
+
+            <Show.When isTrue={activePage === "setting"}>
+              <VaultSettingPage />
+            </Show.When>
+
+            <Show.Else>
+              <Center h="100%">
+                <Text fs="italic" fw="bold">
+                  “How on earth did you get here?”
+                </Text>
+              </Center>
+            </Show.Else>
+          </Show>
         </AppShell.Main>
       </AppShell>
     </>

@@ -5,10 +5,11 @@ import {
   V1VaultShowRoute,
 } from "@blackbox/backend/blueprint";
 import { createSafeContext } from "@mantine/core";
-import { UseQueryResult } from "@tanstack/react-query";
 
 export type BlackboxContextProps = {
   children: React.ReactNode;
+  session: V1AuthSessionRoute["output"]["session"];
+  vault: V1VaultShowRoute["output"]["vault"];
 };
 
 export type BlackboxProviderValues = {
@@ -18,8 +19,8 @@ export type BlackboxProviderValues = {
   setVaultKey: SetReactState<string | null>;
   masterKey: string | null;
   setMasterKey: SetReactState<string | null>;
-  sessionQ: UseQueryResult<V1AuthSessionRoute["output"]>;
-  vaultQ: UseQueryResult<V1VaultShowRoute["output"]>;
+  session: V1AuthSessionRoute["output"]["session"];
+  vault: V1VaultShowRoute["output"]["vault"];
 };
 
 export const [BlackboxProvider, useBlackboxContext] =
