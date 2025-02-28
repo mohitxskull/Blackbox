@@ -1,6 +1,7 @@
 import db from '@adonisjs/lucid/services/db'
 import logger from '@adonisjs/core/services/logger'
 import User from '#models/user'
+import { DateTime } from 'luxon'
 
 export const boot = async () => {
   logger.info('Initializing app...')
@@ -17,6 +18,7 @@ export const boot = async () => {
           password: 'master$master',
           firstName: 'Skull',
           lastName: 'Dot',
+          verifiedAt: DateTime.utc(),
         },
         {
           client: trx,
@@ -28,6 +30,8 @@ export const boot = async () => {
         key: '',
         timeout: 5 * 60,
       })
+
+      await trx.commit()
     } catch (error) {
       await trx.rollback()
 
