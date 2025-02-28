@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { BlackboxContextProps, BlackboxProvider } from "./base";
 import { BlackboxPages } from "@/types/context";
+import { cobalt } from "@/configs/cobalt";
+import { useSession } from "../hooks/use_session";
 
 const getVaultVersion = (): number | null => {
   if (!window) {
@@ -25,6 +27,13 @@ const setVaultVersion = (version: number) => {
 };
 
 export const BlackboxContext = (props: BlackboxContextProps) => {
+  const sessionQ = useSession();
+
+  const vaultQ = cobalt.useQuery({
+    endpoint: "V1_VAULT_SHOW",
+    input: {},
+  });
+
   const [activePage, setActivePage] = useState<BlackboxPages>("home");
 
   const [masterKey, setMasterKey] = useState<string | null>(null);
@@ -41,6 +50,8 @@ export const BlackboxContext = (props: BlackboxContextProps) => {
           setMasterKey,
           vaultKey,
           setVaultKey,
+          sessionQ,
+          vaultQ,
         }}
       >
         {props.children}

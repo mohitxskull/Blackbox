@@ -28,14 +28,14 @@ export type V1AuthPasswordUpdateRoute = InferController<
 export type V1AuthProfileUpdateRoute = InferController<
   (typeof import('../../app/controllers/auth/profile/update_controller.ts'))['default']
 >
-export type V1AuthProfileMetricRoute = InferController<
-  (typeof import('../../app/controllers/auth/profile/metric_controller.ts'))['default']
+export type V1VaultShowRoute = InferController<
+  (typeof import('../../app/controllers/vault/show_controller.ts'))['default']
 >
-export type V1VaultKeyShowRoute = InferController<
-  (typeof import('../../app/controllers/vault/key/show_controller.ts'))['default']
+export type V1VaultUpdateRoute = InferController<
+  (typeof import('../../app/controllers/vault/update_controller.ts'))['default']
 >
-export type V1VaultKeyUpdateRoute = InferController<
-  (typeof import('../../app/controllers/vault/key/update_controller.ts'))['default']
+export type V1VaultMetricRoute = InferController<
+  (typeof import('../../app/controllers/vault/metric_controller.ts'))['default']
 >
 export type V1VaultObjectListRoute = InferController<
   (typeof import('../../app/controllers/vault/object/list_controller.ts'))['default']
@@ -51,6 +51,9 @@ export type V1VaultObjectUpdateRoute = InferController<
 >
 export type V1VaultObjectDeleteRoute = InferController<
   (typeof import('../../app/controllers/vault/object/delete_controller.ts'))['default']
+>
+export type V1PingRoute = InferController<
+  (typeof import('../../app/controllers/ping_controller.ts'))['default']
 >
 
 export const routes = {
@@ -89,20 +92,12 @@ export const routes = {
     path: '/api/v1/auth/profile',
     method: 'PUT',
   }),
-  V1_AUTH_PROFILE_METRIC: route<V1AuthProfileMetricRoute>({
+  V1_VAULT_SHOW: route<V1VaultShowRoute>({ form: false, path: '/api/v1/vault', method: 'GET' }),
+  V1_VAULT_UPDATE: route<V1VaultUpdateRoute>({ form: false, path: '/api/v1/vault', method: 'PUT' }),
+  V1_VAULT_METRIC: route<V1VaultMetricRoute>({
     form: false,
-    path: '/api/v1/auth/profile/metric',
+    path: '/api/v1/vault/metric',
     method: 'GET',
-  }),
-  V1_VAULT_KEY_SHOW: route<V1VaultKeyShowRoute>({
-    form: false,
-    path: '/api/v1/vault/key',
-    method: 'GET',
-  }),
-  V1_VAULT_KEY_UPDATE: route<V1VaultKeyUpdateRoute>({
-    form: false,
-    path: '/api/v1/vault/key',
-    method: 'PUT',
   }),
   V1_VAULT_OBJECT_LIST: route<V1VaultObjectListRoute>({
     form: false,
@@ -129,4 +124,5 @@ export const routes = {
     path: '/api/v1/vault/object/{{ secretObjectId }}',
     method: 'DELETE',
   }),
+  V1_PING: route<V1PingRoute>({ form: false, path: '/api/v1/ping', method: 'GET' }),
 } as const

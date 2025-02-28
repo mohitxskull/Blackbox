@@ -48,8 +48,6 @@ router
             router
               .group(() => {
                 router.put('', [() => import('#controllers/auth/profile/update_controller')])
-
-                router.get('metric', [() => import('#controllers/auth/profile/metric_controller')])
               })
               .prefix('profile')
               .use(middleware.auth())
@@ -58,12 +56,9 @@ router
 
         router
           .group(() => {
-            router
-              .group(() => {
-                router.get('', [() => import('#controllers/vault/key/show_controller')])
-                router.put('', [() => import('#controllers/vault/key/update_controller')])
-              })
-              .prefix('key')
+            router.get('', [() => import('#controllers/vault/show_controller')])
+            router.put('', [() => import('#controllers/vault/update_controller')])
+            router.get('metric', [() => import('#controllers/vault/metric_controller')])
 
             router
               .group(() => {

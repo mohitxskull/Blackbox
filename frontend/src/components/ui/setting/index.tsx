@@ -13,12 +13,16 @@ import BoringAvatar from "boring-avatars";
 import { SettingGeneralUpdateForm } from "./update_form";
 import { SettingPasswordUpdateForm } from "./password_update_form";
 import { SettingVaultUpdateForm } from "./vault_update_form";
+import { useBlackboxContext } from "@/lib/context/base";
+import { LocalQueryLoader } from "@/components/query_loader";
 
 type Props = {
   session: V1AuthSessionRoute["output"]["session"];
 };
 
 export const VaultSettingPage = (props: Props) => {
+  const { vaultQ } = useBlackboxContext();
+
   return (
     <>
       <Container mt="xl">
@@ -60,7 +64,13 @@ export const VaultSettingPage = (props: Props) => {
             </Tabs.Panel>
 
             <Tabs.Panel value="vault" pt="xl">
-              <SettingVaultUpdateForm session={props.session} />
+              <LocalQueryLoader query={vaultQ}>
+                {({ vault }) => (
+                  <>
+                    <SettingVaultUpdateForm vault={vault} />
+                  </>
+                )}
+              </LocalQueryLoader>
             </Tabs.Panel>
           </Tabs>
         </Stack>

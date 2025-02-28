@@ -13,9 +13,9 @@ export const SettingPasswordUpdateForm = () => {
         oldPassword: "",
       },
     },
-    onSuccess: () => {
+    onSuccess: (updatedData) => {
       notifications.show({
-        message: "Your Password has been updated",
+        message: updatedData.message,
       });
 
       return {

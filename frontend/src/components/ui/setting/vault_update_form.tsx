@@ -1,34 +1,32 @@
 import { HorizontalInput } from "@/components/horizontal_input";
 import { cobalt } from "@/configs/cobalt";
-import { V1AuthSessionRoute } from "@blackbox/backend/blueprint";
+import { V1VaultShowRoute } from "@blackbox/backend/blueprint";
 import { Form, RightGroup } from "@folie/cobalt/components";
 import { Button, NumberInput, Stack, Switch } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 
 type Props = {
-  session: V1AuthSessionRoute["output"]["session"];
+  vault: V1VaultShowRoute["output"]["vault"];
 };
 
 export const SettingVaultUpdateForm = (props: Props) => {
   const [form, iProps, iKey, [mutation, submit]] = cobalt.useForm({
-    endpoint: "V1_AUTH_PROFILE_UPDATE",
+    endpoint: "V1_VAULT_UPDATE",
     form: {
       values: {
-        setting: {
-          timeout: props.session.setting.timeout,
-        },
+        timeout: props.vault.timeout,
       },
     },
     onSuccess: (updatedData) => {
       notifications.show({
-        message: "Vault settings updated successfully",
+        message: updatedData.message,
       });
 
       return {
         input: {
-          ...updatedData.user,
+          ...updatedData.vault,
         },
-        queryKeys: (qk) => [qk("V1_AUTH_SESSION", undefined)],
+        queryKeys: (qk) => [qk("V1_VAULT_SHOW", undefined)],
       };
     },
   });
@@ -44,7 +42,7 @@ export const SettingVaultUpdateForm = (props: Props) => {
               rightAlign
               gutter="xs"
               expand={{
-                active: form.getValues().setting?.timeout !== null,
+                active: form.getValues()?.timeout !== null,
                 children: (
                   <>
                     <Stack>
@@ -53,8 +51,8 @@ export const SettingVaultUpdateForm = (props: Props) => {
                         max={3600}
                         placeholder="10 - 3600 Seconds"
                         suffix=" Seconds"
-                        {...iProps(["setting", "timeout"])}
-                        key={iKey(["setting", "timeout"])}
+                        {...iProps(["timeout"])}
+                        key={iKey(["timeout"])}
                       />
                     </Stack>
                   </>
@@ -63,15 +61,13 @@ export const SettingVaultUpdateForm = (props: Props) => {
             >
               <Switch
                 color="teal.8"
-                checked={form.getValues().setting?.timeout !== null}
+                checked={form.getValues()?.timeout !== null}
                 disabled={loading}
                 onChange={(e) => {
                   form.setValues({
-                    setting: {
-                      timeout: e.target.checked
-                        ? (props.session.setting.timeout ?? 300)
-                        : null,
-                    },
+                    timeout: e.target.checked
+                      ? (props.vault.timeout ?? 300)
+                      : null,
                   });
                 }}
               />

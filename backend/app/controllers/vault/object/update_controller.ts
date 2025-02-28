@@ -28,40 +28,42 @@ export default routeController({
 
       await user.load('vault')
 
+      const secureObject = await user.vault
+        .related('secureObjects')
+        .query()
+        .where('id', payload.params.secretObjectId)
+        .first()
+
+      if (!secureObject) {
+        throw new ProcessingException('Secure object not found')
+      }
+
+      if (secureObject.version >= payload.version) {
+        throw new ProcessingException('Secure object version is outdated', {
+          source: 'version',
+        })
+      }
+
+      secureObject.value = payload.value
+      secureObject.version = payload.version
+
+      await user.vault.refresh()
+
+      user.vault.version += 1
+
+      await Promise.all([secureObject.save(), user.vault.save()])
+
       await trx.commit()
+
+      return {
+        vault: user.vault.$serialize(),
+        secureObject: secureObject.$serialize(),
+        message: 'Secure object updated successfully',
+      }
     } catch (error) {
       await trx.rollback()
 
       throw error
     }
-
-    const secureObject = await user
-      .related('secureObjects')
-      .query()
-      .where('id', payload.params.secretObjectId)
-      .first()
-
-    if (!secureObject) {
-      throw new ProcessingException('Secure object not found')
-    }
-
-    if (secureObject.type !== payload.type) {
-      throw new ProcessingException('Secure object type does not match', {
-        source: 'type',
-      })
-    }
-
-    if (secureObject.version >= payload.version) {
-      throw new ProcessingException('Secure object version is outdated', {
-        source: 'version',
-      })
-    }
-
-    secureObject.value = payload.value
-    secureObject.version = payload.version
-
-    await secureObject.save()
-
-    return { secureObject: secureObject.$serialize() }
   },
 })

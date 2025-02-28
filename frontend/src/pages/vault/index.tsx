@@ -4,23 +4,20 @@ import { VaultHomePage } from "@/components/ui/home";
 import { VaultSettingPage } from "@/components/ui/setting";
 import { cobaltServer } from "@/configs/cobalt_server";
 import { useBlackboxContext } from "@/lib/context/base";
-import { useSession } from "@/lib/hooks/use_session";
 import { Show } from "@folie/cobalt/components";
 import { Center, Loader, Text } from "@mantine/core";
 
 export const getServerSideProps = cobaltServer.secure();
 
 export default function Page() {
-  const { activePage } = useBlackboxContext();
-
-  const session = useSession();
+  const { activePage, sessionQ } = useBlackboxContext();
 
   return (
     <>
       <AppLayout fullPage>
         <>
           <LocalQueryLoader
-            query={session}
+            query={sessionQ}
             isLoading={
               <>
                 <Center h="100%">

@@ -6,6 +6,6 @@ export default routeController({
 
     await user.load('vault')
 
-    return { vault: ctx.session.user.vault }
+    return { vault: ctx.session.user.vault.$serialize() }
   },
 })
